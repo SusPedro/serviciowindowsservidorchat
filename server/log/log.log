@@ -79,3 +79,45 @@ Servicio iniciado 26/05/2015 a las 01:38:38
 Servicio iniciado 26/05/2015 a las 01:45:56
 
 Servicio iniciado 26/05/2015 a las 01:46:06
+
+Servicio iniciado 26/05/2015 a las 02:28:10
+02:28:16 se ha conectado j
+02:28:18 | j | hg
+02:28:18 | j | hg
+02:28:18 | j | hg
+02:28:19 | j | hg
+[Errno 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+02:28:19 se ha desconectado j
+02:34:17 se ha conectado j
+
+Servicio iniciado 26/05/2015 a las 02:34:09
+02:34:23 se ha conectado j
+02:34:38 | j | p
+02:34:44 | j | parapapapaaa
+[Errno 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+02:34:46 se ha desconectado j
+02:34:52 se ha conectado yisus
+02:34:55 | yisus | ijujuuj
+02:35:00 | j | juju
+02:35:07 | yisus | uuu
+[Errno 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "C:\Python27\lib\threading.py", line 810, in __bootstrap_inner
+    self.run()
+  File "C:\Users\Equipo101\Desktop\2015pro\Serviciowindowsservidorchat\server\serverroom.py", line 29, in run
+    del sockets[str(self.nombre)]
+KeyError: 'j'
+
+[Errno 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+02:35:18 se ha desconectado yisus
+
+Servicio iniciado 26/05/2015 a las 02:38:56
+02:39:06 se ha conectado ewle
+02:39:11 se ha conectado que pa
+02:39:14 | que pa | hola
+02:39:23 | ewle | bueno bueno bueno
+[Errno 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+02:39:26 se ha desconectado que pa
+[Errno 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+02:39:27 se ha desconectado ewle

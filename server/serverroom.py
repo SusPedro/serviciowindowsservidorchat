@@ -20,7 +20,8 @@ class cliente(threading.Thread):
             try:
                 received = self.sc.recv(1024)
                 a = received.decode('utf-8')
-                self.broadcast(self.nombre+': '+str(a))
+                with self.lock:
+                    self.broadcast(self.nombre+': '+str(a))
                 self.log(time.strftime("%I:%M:%S")+' | '+self.nombre+' | '+str(a))
             except Exception,e:
                 sys.stderr.write(str(e)+"\n")
@@ -33,9 +34,8 @@ class cliente(threading.Thread):
     def broadcast(self,msg):
         global sockets
         try:
-            with self.lock:
-                for usu,sock in sockets.items():
-                    sock.send(msg)
+            for usu,sock in sockets.items():
+                sock.send(msg)
         except Exception,e:
             sys.stderr.write(str(e)+"\n")
             pass
