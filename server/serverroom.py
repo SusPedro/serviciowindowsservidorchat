@@ -5,11 +5,12 @@ sockets = {}
 
 class cliente(threading.Thread):
 
-    def __init__(self,sc,nombre):
+    def __init__(self,sc,nombre,lock):
         threading.Thread.__init__(self)
         sys.stderr = file(os.path.join(os.path.dirname(__file__), 'log', 'log.log'),'a')
         self.nombre = nombre
         self.sc = sc
+        self.lock = lock
 
     def run(self):
         global sockets
@@ -43,10 +44,11 @@ class cliente(threading.Thread):
 
 class server(threading.Thread):
 
-    def __init__(self):
+    def __init__(self,lock):
         threading.Thread.__init__(self)
         sys.stderr = file(os.path.join(os.path.dirname(__file__), 'log', 'log.log'),'a')
         sys.stderr.write('\nServicio iniciado '+time.strftime("%d/%m/%Y")+' a las '+time.strftime("%I:%M:%S")+'\n')
+        self.lock = lock
 
     def run(self):
         global sockets
@@ -61,8 +63,10 @@ class server(threading.Thread):
                 deco = recibido.decode('utf-8')
                 nombre = str(deco)
                 """"""
+                self.lock.acquire()
                 sockets[str(nombre)] = sc
-                t = cliente(sc,str(nombre))
+                self.lock.release()
+                t = cliente(sc,str(nombre),self.lock)
                 t.setDaemon = True
                 t.start()
             except Exception,e:

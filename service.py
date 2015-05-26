@@ -2,6 +2,7 @@ import win32serviceutil
 import win32service
 import win32event
 from server import serverroom
+import threading
 
 class JesusService(win32serviceutil.ServiceFramework):
     _svc_name_ = "JesusService2"
@@ -20,7 +21,8 @@ class JesusService(win32serviceutil.ServiceFramework):
         win32event.SetEvent(self.hWaitStop)
 
     def SvcDoRun(self):
-        s = serverroom.server()
+        lock = threading.Lock()
+        s = serverroom.server(lock)
         s.setDaemon = True
         s.start()
         # El servicio no hace nada, simplemente esperar al evento de detencion
