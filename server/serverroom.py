@@ -1,51 +1,52 @@
-import socket, threading, time,sys
+import socket, threading,sys,os,time
 
 sockets = {}
+
 
 class cliente(threading.Thread):
 
     def __init__(self,sc,nombre):
         threading.Thread.__init__(self)
-        self.fich = open('C:\Users\Equipo101\Desktop\\2015pro\Serviciowindowsservidorchat\clienlog.txt','a')
+        sys.stderr = file(os.path.join(os.path.dirname(__file__), 'log', 'log.log'),'a')
         self.nombre = nombre
         self.sc = sc
 
     def run(self):
         global sockets
-        self.broadcast('Conectado '+self.nombre)
+        self.broadcast(time.strftime("%I:%M:%S")+' se ha conectado '+self.nombre)
+        self.log(time.strftime("%I:%M:%S")+' se ha conectado '+self.nombre)
         while True:
             try:
                 received = self.sc.recv(1024)
                 a = received.decode('utf-8')
-                self.log(self.nombre+': '+str(a)+'\n')
                 self.broadcast(self.nombre+': '+str(a))
+                self.log(time.strftime("%I:%M:%S")+' | '+self.nombre+' | '+str(a))
             except Exception,e:
-                self.fich.write('Excepcion:\n')
-                self.fich.write(str(e))
-                self.fich.write('Fin Excepcion\n')
-                self.fich.flush()
+                sys.stderr.write(str(e)+"\n")
                 break
         del sockets[str(self.nombre)]
-        self.broadcast('Desconectado '+self.nombre)
+        self.broadcast(time.strftime("%I:%M:%S")+' se ha desconectado '+self.nombre)
+        self.log(time.strftime("%I:%M:%S")+' se ha desconectado '+self.nombre)
 
     def broadcast(self,msg):
         global sockets
         try:
             for usu,sock in sockets.items():
                 sock.send(msg)
-        except Exception,ex:
-            self.fich.write(str(ex))
-            self.fich.flush()
+        except Exception,e:
+            sys.stderr.write(str(e)+"\n")
+            pass
 
     def log(self,msg):
-        self.fich.write(str(msg))
-        self.fich.flush()
+        sys.stderr.write(str(msg)+"\n")
+
 
 class server(threading.Thread):
 
     def __init__(self):
-        self.fich = open('C:\Users\Equipo101\Desktop\\2015pro\Serviciowindowsservidorchat\log.txt','a')
         threading.Thread.__init__(self)
+        sys.stderr = file(os.path.join(os.path.dirname(__file__), 'log', 'log.log'),'a')
+        sys.stderr.write('\nServicio iniciado '+time.strftime("%d/%m/%Y")+' a las '+time.strftime("%I:%M:%S")+'\n')
 
     def run(self):
         global sockets
@@ -65,9 +66,10 @@ class server(threading.Thread):
                 t.setDaemon = True
                 t.start()
             except Exception,e:
-                self.fich.write(str(e))
-                self.fich.flush()
+                sys.stderr.write(str(e)+"\n")
 
+    def log(self,msg):
+        sys.stderr.write(str(msg)+"\n")
 
 
 
