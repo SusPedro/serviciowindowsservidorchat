@@ -67,3 +67,15 @@ Servicio iniciado 26/05/2015 a las 01:30:16
 01:30:42 | h | hhjjuu er333
 [Errno 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
 01:30:59 se ha desconectado h
+
+Servicio iniciado 26/05/2015 a las 01:38:38
+01:38:46 se ha conectado n
+01:38:48 | n | h
+01:38:49 | n | h
+01:38:53 | n | hjk 89 
+[Errno 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+01:38:55 se ha desconectado n
+
+Servicio iniciado 26/05/2015 a las 01:45:56
+
+Servicio iniciado 26/05/2015 a las 01:46:06

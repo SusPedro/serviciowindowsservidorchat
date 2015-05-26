@@ -25,15 +25,17 @@ class cliente(threading.Thread):
             except Exception,e:
                 sys.stderr.write(str(e)+"\n")
                 break
-        del sockets[str(self.nombre)]
+        with self.lock:
+            del sockets[str(self.nombre)]
         self.broadcast(time.strftime("%I:%M:%S")+' se ha desconectado '+self.nombre)
         self.log(time.strftime("%I:%M:%S")+' se ha desconectado '+self.nombre)
 
     def broadcast(self,msg):
         global sockets
         try:
-            for usu,sock in sockets.items():
-                sock.send(msg)
+            with self.lock:
+                for usu,sock in sockets.items():
+                    sock.send(msg)
         except Exception,e:
             sys.stderr.write(str(e)+"\n")
             pass
@@ -63,9 +65,8 @@ class server(threading.Thread):
                 deco = recibido.decode('utf-8')
                 nombre = str(deco)
                 """"""
-                self.lock.acquire()
-                sockets[str(nombre)] = sc
-                self.lock.release()
+                with self.lock:
+                    sockets[str(nombre)] = sc
                 t = cliente(sc,str(nombre),self.lock)
                 t.setDaemon = True
                 t.start()
