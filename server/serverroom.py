@@ -1,4 +1,5 @@
 import socket, threading,sys,os,time
+import servicemanager
 
 sockets = {}
 
@@ -70,6 +71,11 @@ class server(threading.Thread):
                 t = cliente(sc,str(nombre),self.lock)
                 t.setDaemon = True
                 t.start()
+                """servicemanager log"""
+                servicemanager.LogMsg(
+                    servicemanager.EVENTLOG_INFORMATION_TYPE,
+                    0xF000, # Generic message
+                    ('mensaje', 'nuse'))
             except Exception,e:
                 sys.stderr.write(str(e)+"\n")
 
